@@ -18,7 +18,7 @@ const AuthReducer = (state, action) => {
         isLoading: false,
         error: action.payload,
       };
-    
+
     case 'LOGIN_REQUEST':
       return {
         user: null,
@@ -37,7 +37,7 @@ const AuthReducer = (state, action) => {
         isLoading: false,
         error: action.payload,
       };
-    
+
     case 'LOGIN_RESET':
       return {
         ...state,
@@ -45,18 +45,11 @@ const AuthReducer = (state, action) => {
         error: false,
       };
     case 'SIGNUP_SUCCESS':
-      return {...state,
-        isLoading: false,
-        error: false,
-        user:action.payload
-      };
+      return { ...state, isLoading: false, error: false };
     case 'SIGNUP_FAIL':
-      return {...state,
-        isLoading: false,
-        error: action.payload,
-      };
+      return { ...state, isLoading: false, error: action.payload };
     case 'LOGOUT':
-      localStorage.removeItem('user')
+      localStorage.removeItem('user');
       return {
         user: JSON.parse(localStorage.getItem('user')) || null,
         isLoading: false,
