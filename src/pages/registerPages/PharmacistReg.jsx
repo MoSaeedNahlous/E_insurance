@@ -1,3 +1,4 @@
+import { Alert } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate,Link } from 'react-router-dom'
 import { doctorRegister, pharmacistRegister } from '../../contexts/Auth/AuthActions'
@@ -6,7 +7,7 @@ import { AuthContext } from '../../contexts/Auth/AuthContext'
 
 const PharmacistReg = () => {
     const navigate = useNavigate()
-    const {dispatch,user} = useContext(AuthContext)
+    const {dispatch,user,isLoading,error} = useContext(AuthContext)
     const [data, setData] = useState({
         name: "",
         phone: "",
@@ -24,6 +25,7 @@ const PharmacistReg = () => {
     }
 
     useEffect(() => {
+        dispatch({type:'LOGIN_RESET'})
         if (!user || !user.isAdmin) {
           navigate('/',{replace:true})
         }
@@ -32,6 +34,7 @@ const PharmacistReg = () => {
 
   return (
       <div>
+          { error && <Alert severity="error">{ error }</Alert>}
           <form onSubmit={onSubmitHandler} >
               <h2>Create Pharmacist Register</h2>
                 <div className="form-group">
@@ -49,7 +52,10 @@ const PharmacistReg = () => {
                     <input type="text" onChange={onChangeHandler} value={data.address} className="form-control" name='address'  placeholder="Enter address"/>
                 </div>
                 <div className="form-group">
-                  <button type="submit" className="btn btn-primary btn-lg">Create</button>
+                  <button type="submit" className="btn btn-primary btn-lg"
+                      disabled={ isLoading }
+          >
+            {isLoading ? <CircularProgress /> :"Create"}</button>
                 </div>
           </form >
       </div>

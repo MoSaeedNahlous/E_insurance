@@ -137,6 +137,16 @@ const PharmacistsReducer = (state, action) => {
         isLoading: false,
         error: action.payload,
       };
+    case 'RESET':
+      return {
+        pharmacists: [],
+  drugs:[],
+  currentPharmacist:null,
+  isLoading: false,
+  error: false,
+  success: false,
+  totalPrice:''
+      }
       
     default:
       return state;

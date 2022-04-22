@@ -1,3 +1,4 @@
+import { Alert, CircularProgress } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate,Link } from 'react-router-dom'
 import { doctorRegister } from '../../contexts/Auth/AuthActions'
@@ -6,7 +7,7 @@ import classes from './registerForm.module.css'
 
 const DoctorReg = () => {
     const navigate = useNavigate()
-    const {dispatch,user} = useContext(AuthContext)
+    const {dispatch,user,error,isLoading} = useContext(AuthContext)
     const [data, setData] = useState({
         name: "",
         phone: "",
@@ -25,6 +26,7 @@ const DoctorReg = () => {
     }
 
     useEffect(() => {
+        dispatch({type:'LOGIN_RESET'})
         if (!user || !user.isAdmin) {
           navigate('/',{replace:true})
         }
@@ -33,6 +35,7 @@ const DoctorReg = () => {
 
   return (
       <div>
+{ error && <Alert severity="error">{ error }</Alert>}
           <form onSubmit={onSubmitHandler} >
               <h2>Create Doctor Account</h2>
                 <div className="form-group">
@@ -54,7 +57,11 @@ const DoctorReg = () => {
                 </div>
               
                 <div className="form-group">
-                  <button type="submit" className="btn btn-primary btn-lg">Create</button>
+                  <button type="submit" className="btn btn-primary btn-lg"
+                  disabled={ isLoading }
+          >
+            {isLoading ? <CircularProgress /> :"Create"}
+                  </button>
                 </div>
           </form >
       </div>

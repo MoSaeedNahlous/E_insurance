@@ -18,7 +18,11 @@ const Home = () => {
   }, [user])
   
   return (
-    <div></div>
+    <div className='container' style={{marginTop:'15%'}}>
+      <h1 className='mb-5'>Welcome to E-HealthInsurance Web Site</h1>
+      <p>Discover our website services by
+        Signning up a new account or login if you already got an account!</p>
+    </div>
   )
 }
 

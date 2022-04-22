@@ -5,6 +5,7 @@ import { getPatients } from '../../contexts/patients/PatientsActions'
 import { PatientsContext } from '../../contexts/patients/PatientsContext'
 import { createPrescription, getDrugs, getTotalPriceInDate } from '../../contexts/pharmacists/PharmacistsActions'
 import { PharmacistsContext } from '../../contexts/pharmacists/PharmacistsContext'
+import { Alert, CircularProgress } from '@mui/material'
 
 const PharmacistPanel = () => {
 
@@ -26,6 +27,7 @@ const PharmacistPanel = () => {
     }
 
     useEffect(() => {
+        dispatch({type:'RESET'})
         if (!user || user.role !== 'pharmacist') {
             nav('/pharmacist/login',{replace:true})
         }
@@ -57,6 +59,7 @@ const PharmacistPanel = () => {
 
   return (
       <div>
+          { error && <Alert severity="error">{ error.response.data.message }</Alert>}
           <h3>Pharmacist Panel</h3>
 
           <form className='justify-content-start' style={ { minHeight: '300px' } } onSubmit={ onSubmitHandler }>
@@ -88,7 +91,7 @@ const PharmacistPanel = () => {
                   <button type="submit" className="btn btn-primary btn-m"
                       disabled={ isLoading }>Add Prescription</button>
               </div>
-              { error && <h6 className='text-center'>{error}</h6>}
+              {/* { error && <h6 className='text-center'>{error}</h6>} */}
           </form >
 
            <hr />

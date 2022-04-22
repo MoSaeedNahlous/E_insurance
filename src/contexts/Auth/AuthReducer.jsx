@@ -18,6 +18,7 @@ const AuthReducer = (state, action) => {
         isLoading: false,
         error: action.payload,
       };
+    
     case 'LOGIN_REQUEST':
       return {
         user: null,
@@ -35,6 +36,13 @@ const AuthReducer = (state, action) => {
         user: null,
         isLoading: false,
         error: action.payload,
+      };
+    
+    case 'LOGIN_RESET':
+      return {
+        ...state,
+        isLoading: false,
+        error: false,
       };
     case 'SIGNUP_SUCCESS':
       return {...state,

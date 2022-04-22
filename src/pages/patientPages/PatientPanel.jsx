@@ -3,9 +3,10 @@ import { searchForDoctor, searchForPharmacist } from '../../contexts/patients/Pa
 import { PatientsContext } from '../../contexts/patients/PatientsContext'
 import {AuthContext } from '../../contexts/Auth/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import { Alert, CircularProgress } from '@mui/material'
 
 const PatientPanel = () => {
-    const { dispatch, isLoading, searchPharmacists, searchDoctors } = useContext(PatientsContext)
+    const { dispatch, isLoading, searchPharmacists, searchDoctors,error } = useContext(PatientsContext)
     const { user } = useContext(AuthContext)
     const nav =useNavigate()
 
@@ -14,6 +15,7 @@ const PatientPanel = () => {
     const [speciality, setSpeciality] = useState('')
 
     useEffect(() => {
+        dispatch({type:'GET_PHARMACISTS_RESET'})
         if (!user || user.role !== 'patient') {
             nav('/',{replace:true})
         }
@@ -34,10 +36,15 @@ const PatientPanel = () => {
     }
   return (
       <div>
+          { error && <Alert severity="error">{ error.response.data.message }</Alert>}
           <form onSubmit={onSubmitHandler} className='d-flex flex-column justify-content-start'  style={{minHeight:'200px'}}>
               <h2>Search for Active Pharmacist</h2>
                   <input type="text" onChange={ e => { setLocation(e.target.value) } } value={ location } className="form-control" name='location' placeholder="Enter location" />
-                  <button type="submit" className="btn btn-primary btn-lg">Search</button>
+              <button type="submit" className="btn btn-primary btn-lg"
+                  disabled={isLoading}
+              >
+                  { isLoading ? <CircularProgress /> : "Search" }
+              </button>
           </form >
           
           <div className='table-responsive'>
@@ -65,7 +72,11 @@ const PatientPanel = () => {
               <h2>Search for Active Doctors</h2>
               <input type="text" onChange={ e => { setLocation2(e.target.value) } } value={ location2 } className="form-control" name='location' placeholder="Enter location" />
               <input type="text" onChange={ e => { setSpeciality(e.target.value) } } value={ speciality } className="form-control" name='speciality' placeholder="Enter speciality" />
-                  <button type="submit" className="btn btn-primary btn-lg">Search</button>
+              <button type="submit" className="btn btn-primary btn-lg"
+              disabled={isLoading}
+              >
+                  { isLoading ? <CircularProgress />: "Search" }
+              </button>
           </form >
           
           <div className='table-responsive'>

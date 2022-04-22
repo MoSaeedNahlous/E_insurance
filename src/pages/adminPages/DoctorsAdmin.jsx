@@ -3,12 +3,13 @@ import { changeActive, clearCurrentDoctor, getDoctors, setCurrentDoctor, updateD
 import { DoctorsContext } from '../../contexts/doctors/DoctorsContext'
 import { AuthContext } from '../../contexts/Auth/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import { Alert, CircularProgress } from '@mui/material'
 
 const DoctorsAdmin = () => {
 
     const { user } = useContext(AuthContext)
     const nav = useNavigate()
-    const {doctors,currentDoctor,isLoading,success,dispatch} = useContext(DoctorsContext)
+    const {doctors,currentDoctor,isLoading,success,dispatch,error} = useContext(DoctorsContext)
     const [data, setData] = useState({
         name: '',
         password: '',
@@ -22,6 +23,7 @@ const DoctorsAdmin = () => {
     }
 
     useEffect(() => {
+        dispatch({type:'RESET'})
         if (!user || !user.isAdmin) {
           nav('/',{replace:true})
       }
@@ -63,6 +65,7 @@ const DoctorsAdmin = () => {
 
   return (
       <div>
+          { error && <Alert severity="error">{ error.response.data.message }</Alert>}
           <h3>Doctors</h3>
 
           <form className='justify-content-start' style={{minHeight:'300px'}} onSubmit={onSubmitHandler}>
@@ -86,10 +89,12 @@ const DoctorsAdmin = () => {
               
                 <div className="form-group my-2">
                   <button type="submit" className="btn btn-primary btn-m"
-                      disabled={ isLoading || !currentDoctor}>Update</button>
+                      disabled={ isLoading || !currentDoctor }>
+                      {isLoading ? <CircularProgress /> :"Update"}
+                  </button>
                 </div>
           </form >
-          {isLoading?<h2>Loading..</h2>:
+          {isLoading?<CircularProgress />:
           <div className='table-responsive'>
           <table className='table table-hover w-75 mx-auto table-responsive'>
               <thead>

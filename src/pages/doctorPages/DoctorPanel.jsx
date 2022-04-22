@@ -5,6 +5,7 @@ import { addVisit, getTotalFeesInDate } from '../../contexts/doctors/DoctorsActi
 import { DoctorsContext } from '../../contexts/doctors/DoctorsContext'
 import { getPatients } from '../../contexts/patients/PatientsActions'
 import { PatientsContext } from '../../contexts/patients/PatientsContext'
+import { Alert, CircularProgress } from '@mui/material'
 
 const DoctorPanel = () => {
 
@@ -25,6 +26,7 @@ const DoctorPanel = () => {
     }
     
     useEffect(() => {
+        dispatch({type:"RESET"})
         if (user && user.role === 'doctor') {
             getPatients(dis)
         } else {
@@ -61,6 +63,7 @@ const DoctorPanel = () => {
 
   return (
       <div>
+          { error && <Alert severity="error">{ error.response.data.message }</Alert>}
           <h3>Doctor Panel</h3>
 
           <form className='justify-content-start' style={{minHeight:'300px'}} onSubmit={onSubmitHandler}>
@@ -89,7 +92,7 @@ const DoctorPanel = () => {
                   <button type="submit" className="btn btn-primary btn-m"
                       disabled={ isLoading }>Add Visit</button>
               </div>
-              { error && <h6 className='text-center'>{error}</h6>}
+              
           </form >
           <hr />
           <form onSubmit={onSubmitHandler2}  className='d-flex flex-column justify-content-start'  style={{minHeight:'100px'}}>

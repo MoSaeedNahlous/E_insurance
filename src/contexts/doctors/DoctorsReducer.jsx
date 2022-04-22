@@ -96,7 +96,15 @@ const DoctorsReducer = (state, action) => {
         isLoading: false,
         error: action.payload,
       };
-      
+    case 'RESET':
+      return {
+         doctors: [],
+    currentDoctor:null,
+    isLoading: false,
+  error: false,
+  success: false,
+    totalFees:''
+      }
     default:
       return state;
   }

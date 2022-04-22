@@ -1,3 +1,4 @@
+import { Alert, CircularProgress } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../contexts/Auth/AuthContext'
@@ -14,7 +15,7 @@ import { PatientsContext } from '../../contexts/patients/PatientsContext'
 const PatientsAdmin = () => {
     const navigate = useNavigate()
     const {user} = useContext(AuthContext)
-    const {patients,currentPatient,isLoading,success,dispatch,sum} = useContext(PatientsContext)
+    const {patients,currentPatient,isLoading,error,success,dispatch,sum} = useContext(PatientsContext)
     const [data, setData] = useState({
         name: '',
         password: '',
@@ -28,6 +29,7 @@ const PatientsAdmin = () => {
     }
 
     useEffect(() => {
+        dispatch({type:'GET_PHARMACISTS_RESET'})
         if (!user || !user.isAdmin) {
           navigate('/',{replace:true})
         }
@@ -74,6 +76,7 @@ const PatientsAdmin = () => {
 
   return (
       <div>
+          { error && <Alert severity="error">{ error.response.data.message }</Alert>}
           <h3>Patients</h3>
 
           <form className='justify-content-start' style={{minHeight:'300px'}} onSubmit={onSubmitHandler}>
@@ -96,14 +99,15 @@ const PatientsAdmin = () => {
                 </div>
                 <div className="form-group my-2">
                   <button type="submit" className="btn btn-primary btn-m"
-                      disabled={ isLoading || !currentPatient}>Update</button>
+                      disabled={ isLoading || !currentPatient }>
+                      {isLoading ? <CircularProgress /> :"Update"}
+                      </button>
                 </div>
           </form >
           <div className="form-group my-2 w-50 mx-auto d-flex align-items-center mb-4">
               <input type="text" onChange={(e)=> setSearch(e.target.value)} value={ search } className="form-control"  aria-describedby="emailHelp" placeholder="Enter patient name to search..." />
-              <button className="btn btn-primary btn-m">Search</button>
             </div>
-          {isLoading?<h2>Loading..</h2>:
+          {isLoading?<CircularProgress />:
           <div className='table-responsive'>
           <table className='table table-hover w-75 mx-auto table-responsive'>
               <thead>

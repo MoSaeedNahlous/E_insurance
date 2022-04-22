@@ -83,6 +83,17 @@ const PatientsReducer = (state, action) => {
         isLoading: false,
         error: action.payload,
       };
+    case 'GET_PHARMACISTS_RESET':
+      return {
+         patients: [],
+    currentPatients:null,
+    isLoading: false,
+    error: false,
+    success: false,
+    sum: null,
+  searchPharmacists: [],
+    searchDoctors:[]
+      };
     case 'GET_DOCTORS_REQUEST':
       return {
         ...state,

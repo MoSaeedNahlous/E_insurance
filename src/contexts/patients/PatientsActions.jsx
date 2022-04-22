@@ -79,6 +79,7 @@ export const getSum = async (dispatch, id) => {
     }
 }
 
+// TESTED
 export const searchForPharmacist = async (dispatch ,address) => {
     dispatch({ type: 'GET_PHARMACISTS_REQUEST' })
     try {
@@ -91,6 +92,7 @@ export const searchForPharmacist = async (dispatch ,address) => {
     }
 }
 
+// TESTED
 export const searchForDoctor = async (dispatch,address,speciality) => {
     dispatch({ type: 'GET_DOCTORS_REQUEST' })
     var url = 'https://arcane-garden-68747.herokuapp.com/api/doctors/search?'
