@@ -15,7 +15,6 @@ export const doctorRegister = async (body, dispatch) => {
       }
     );
     dispatch({ type: 'SIGNUP_SUCCESS', payload: data });
-    localStorage.setItem('user', JSON.stringify(data));
   } catch (error) {
     dispatch({ type: 'SIGNUP_FAIL', payload: error });
   }
@@ -85,7 +84,6 @@ export const pharmacistRegister = async (body, dispatch) => {
       }
     );
     dispatch({ type: 'SIGNUP_SUCCESS', payload: data });
-    localStorage.setItem('user', JSON.stringify(data));
   } catch (error) {
     dispatch({ type: 'SIGNUP_FAIL', payload: error.response.data.message });
   }
