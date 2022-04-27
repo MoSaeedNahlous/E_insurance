@@ -102,10 +102,10 @@ const DoctorPanel = () => {
           </form >
 
         
-              <h3>Total fees is: { totalFees }</h3>
+              <h3>Total fees is: { totalFees.totalFee }</h3>
           
           
-    </div>
+    </div>  
   )
 }
 

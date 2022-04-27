@@ -80,11 +80,11 @@ export const getSum = async (dispatch, id) => {
 }
 
 // TESTED
-export const searchForPharmacist = async (dispatch ,address) => {
+export const searchForPharmacist = async (dispatch) => {
     dispatch({ type: 'GET_PHARMACISTS_REQUEST' })
     try {
         const { data } = await axios.get(
-            `https://arcane-garden-68747.herokuapp.com/api/pharmacists/search?address=${address}`                       
+            `https://arcane-garden-68747.herokuapp.com/api/pharmacists/search`                       
         )
         dispatch({ type: "GET_PHARMACISTS_SUCCESS", payload: data })
     } catch (error) {
@@ -93,15 +93,9 @@ export const searchForPharmacist = async (dispatch ,address) => {
 }
 
 // TESTED
-export const searchForDoctor = async (dispatch,address,speciality) => {
+export const searchForDoctor = async (dispatch) => {
     dispatch({ type: 'GET_DOCTORS_REQUEST' })
     var url = 'https://arcane-garden-68747.herokuapp.com/api/doctors/search?'
-    if (address !=='') {
-        url+= `&address=${address}`
-    }
-    if (speciality!=='') {
-        url+= `&speciality=${speciality}`
-    }
     try {
         const { data } = await axios.get(
             url                       

@@ -22,7 +22,14 @@ const DoctorReg = () => {
 
     const onSubmitHandler = (e) => {
         e.preventDefault()
-        doctorRegister(data,dispatch)
+        doctorRegister(data, dispatch)
+        setData({
+        name: "",
+        phone: "",
+        speciality: '',
+        password: '',
+        address:''
+    })
     }
 
     useEffect(() => {
@@ -36,7 +43,7 @@ const DoctorReg = () => {
   return (
       <div>
 { error && <Alert severity="error">{ error }</Alert>}
-          <form onSubmit={onSubmitHandler} >
+          <form onSubmit={onSubmitHandler} id='doc-reg'>
               <h2>Create Doctor Account</h2>
                 <div className="form-group">
                     <input type="text" onChange={onChangeHandler} value={data.name} className="form-control" name='name' aria-describedby="emailHelp" placeholder="Enter name"/>

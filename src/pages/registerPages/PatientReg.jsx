@@ -18,7 +18,11 @@ const PatientReg = () => {
 
     const onSubmitHandler = (e) => {
         e.preventDefault()
-        patientRegister(data,dispatch)
+        patientRegister(data, dispatch)
+        setData({
+        name: "",
+        password: "",
+    })
     }
 
     useEffect(() => {

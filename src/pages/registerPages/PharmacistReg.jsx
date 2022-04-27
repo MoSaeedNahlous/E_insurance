@@ -24,6 +24,12 @@ const PharmacistReg = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     pharmacistRegister(data, dispatch);
+    setData({
+    name: '',
+    phone: '',
+    password: '',
+    address: '',
+  })
   };
 
   useEffect(() => {

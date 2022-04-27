@@ -10,10 +10,6 @@ const PatientPanel = () => {
     const { user } = useContext(AuthContext)
     const nav =useNavigate()
 
-    const [location, setLocation] = useState('')
-    const [location2, setLocation2] = useState('')
-    const [speciality, setSpeciality] = useState('')
-
     useEffect(() => {
         dispatch({type:'GET_PHARMACISTS_RESET'})
         if (!user || user.role !== 'patient') {
@@ -21,32 +17,16 @@ const PatientPanel = () => {
         }
     }, [user])
     
+useEffect(() => {
+    searchForPharmacist(dispatch)
+    searchForDoctor(dispatch)
+}, [])
 
-    const onSubmitHandler = (e) => {
-        e.preventDefault()
-        searchForPharmacist(dispatch,location)
-        setLocation('')
-    }
 
-    const onSubmitHandler2 = (e) => {
-        e.preventDefault()
-        searchForDoctor(dispatch,location2,speciality)
-        setLocation2('')
-        setSpeciality('')
-    }
   return (
       <div>
-          { error && <Alert severity="error">{ error.response.data.message }</Alert>}
-          <form onSubmit={onSubmitHandler} className='d-flex flex-column justify-content-start'  style={{minHeight:'200px'}}>
-              <h2>Search for Active Pharmacist</h2>
-                  <input type="text" onChange={ e => { setLocation(e.target.value) } } value={ location } className="form-control" name='location' placeholder="Enter location" />
-              <button type="submit" className="btn btn-primary btn-lg"
-                  disabled={isLoading}
-              >
-                  { isLoading ? <CircularProgress /> : "Search" }
-              </button>
-          </form >
-          
+          { error && <Alert severity="error">{ error.response.data.message }</Alert> }
+          <h2>Active Pharmacist</h2>
           <div className='table-responsive'>
           <table className='table table-hover w-75 mx-auto table-responsive'>
               <thead>
@@ -67,18 +47,8 @@ const PatientPanel = () => {
                       </tbody>
               </table>
           </div>
-<hr />
-          <form onSubmit={onSubmitHandler2} className='d-flex flex-column justify-content-start'  style={{minHeight:'200px'}}>
-              <h2>Search for Active Doctors</h2>
-              <input type="text" onChange={ e => { setLocation2(e.target.value) } } value={ location2 } className="form-control" name='location' placeholder="Enter location" />
-              <input type="text" onChange={ e => { setSpeciality(e.target.value) } } value={ speciality } className="form-control" name='speciality' placeholder="Enter speciality" />
-              <button type="submit" className="btn btn-primary btn-lg"
-              disabled={isLoading}
-              >
-                  { isLoading ? <CircularProgress />: "Search" }
-              </button>
-          </form >
-          
+          <hr />
+          <h2>Active Doctors</h2>   
           <div className='table-responsive'>
           <table className='table table-hover w-75 mx-auto table-responsive'>
               <thead>
